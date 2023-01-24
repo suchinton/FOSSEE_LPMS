@@ -233,7 +233,7 @@ class Ui_MainWindow(object):
         verilator_version.pop(0)
         
 
-        if("/usr/bin/verilator" in verilator_path or "/usr/share/verilator" in verilator_path):
+        if("/usr/bin/verilator" in verilator_path or "/usr/share/verilator" in verilator_path or "/usr/local/bin/verilator" in verilator_path):
             print("Verilator installed")
             self.Accept_B.setEnabled(True)
             self.Clear_B.setEnabled(True)

@@ -188,7 +188,7 @@ class Ui_MainWindow(object):
                 self.Path_Cpp.setStyleSheet("color: red;")
                 self.Path_V.setStyleSheet("color: red;")
         except:
-            print("hello")
+            print("Error in Accept funtion")
 
     def Pass_file_to_command(self):
         self.Path_Cpp.setStyleSheet("color: black;")

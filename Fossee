@@ -235,16 +235,21 @@ class Ui_MainWindow(object):
 
         if("/usr/bin/verilator" in verilator_path or "/usr/share/verilator" in verilator_path):
             print("Verilator installed")
+            self.Accept_B.setEnabled(True)
+            self.Clear_B.setEnabled(True)
             if("5.002" in verilator_version or "5.004" in verilator_version or "5.006" in verilator_version):
                 self.Output_Area("Installed Verilator version: " + \
                                   subprocess.getoutput("verilator --version") + "\n")
                 self.Push_to_install.setEnabled(False)
             else:
-                QMessageBox.warning(self,"ERROR!","Outdated Version of Verilator installed, \
+                QMessageBox.warning(None,"ERROR!","Outdated Version of Verilator installed, \
                                     commands might not work as inteded")
                 self.Push_to_install.setEnabled(True)
         else:
-            QMessageBox.warning(self,"ERROR!","Verilator not installed")
+            self.Accept_B.setEnabled(False)
+            self.Clear_B.setEnabled(False)
+            self.Output_Area("Please Install Verilator befor using this tool...\n")
+            QMessageBox.warning(None,"ERROR!","Verilator not installed")
 
     def install_v(self):
         self.install = install_verilator()

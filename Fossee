@@ -284,7 +284,7 @@ class install_verilator(QThread):
                 ,"rm -r verilator"
                 ,"git clone https://github.com/verilator/verilator"
                 ,"unset VERILATOR_ROOT"
-                ,"cd verilator"
+                ,"cd verilator/"
                 ,"git pull"
                 ,"git checkout stable"
                 ,"autoconf"

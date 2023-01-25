@@ -263,7 +263,7 @@ class Ui_MainWindow(object):
                 ,"echo '# please wait... This may take some time'"
                 ,"cd ./verilator/ ; make"
                 ,"echo 'installing make...'"
-                ,"cd ./verilator/ ; pkexec --keep-cwd  make install ; sleep 2"
+                ,"cd ./verilator/ ; pkexec --keep-cwd make install ; sleep 2"
                 ,"echo '# verilator installed...'"
                 ,"verilator --version"]
                 # make install
@@ -309,6 +309,7 @@ class Ui_MainWindow(object):
     def after_install_v(self):
         self.Accept_B.setEnabled(True)
         self.Clear_B.setEnabled(True)
+        self.Check_verilator()
 
 class run_command(QThread):
     P_progress = pyqtSignal(str)

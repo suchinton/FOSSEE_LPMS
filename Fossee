@@ -290,8 +290,7 @@ class install_verilator(QThread):
                 ,"autoconf"
                 ,"./configure"
                 ,"make"
-                ,"pkexec make install"
-                ,"rm -r verilator"]
+                ,"pkexec make install"]
                 
     def __init__(self, parent=None):
         QThread.__init__(self, parent)

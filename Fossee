@@ -253,9 +253,11 @@ class Ui_MainWindow(object):
 
     def install_v(self):
         self.install = install_verilator()
+        self.Push_to_install.setEnabled(False)
         self.install.start()
         self.Install_Output.clear()
         self.install.P_progress.connect(self.install_status)
+        #self.install.finished.connect(QMessageBox.)
 
     def install_status(self,status):
         self.Install_Output.insertPlainText(status)
@@ -279,6 +281,7 @@ class run_command(QThread):
 class install_verilator(QThread):
     P_progress = pyqtSignal(str)
     commands=[  "echo 'Please wait... cloning https://github.com/verilator/verilator'"
+                ,"rm -r verilator"
                 ,"git clone https://github.com/verilator/verilator"
                 ,"unset VERILATOR_ROOT"
                 ,"cd verilator"
@@ -287,7 +290,8 @@ class install_verilator(QThread):
                 ,"autoconf"
                 ,"./configure"
                 ,"make"
-                ,"pkexec make install"]
+                ,"pkexec make install"
+                ,"rm -r verilator"]
                 
     def __init__(self, parent=None):
         QThread.__init__(self, parent)

@@ -252,15 +252,63 @@ class Ui_MainWindow(object):
             QMessageBox.warning(None,"ERROR!","Verilator not installed")
 
     def install_v(self):
-        self.install = install_verilator()
-        self.Push_to_install.setEnabled(False)
-        self.install.start()
-        self.Install_Output.clear()
-        self.install.P_progress.connect(self.install_status)
-        #self.install.finished.connect(QMessageBox.)
+        try:
+            self.Push_to_install.setEnabled(False)
+            self.Install_Output.clear()
+
+            c=[  "# echo 'Please wait... cloning https://github.com/verilator/verilator'"
+                ,"git clone https://github.com/verilator/verilator ; echo '# repo cloned...'"
+                ,"unset VERILATOR_ROOT"
+                ,"pwd ; cd ./verilator/ ; echo '# changing dir to verilator/' ; git checkout stable ; autoconf ; ./configure"
+                ,"echo '# please wait... This may take some time'"
+                ,"cd ./verilator/ ; make"
+                ,"echo 'installing make...'"
+                ,"cd ./verilator/ ; pkexec --keep-cwd  make install ; sleep 2"
+                ,"echo '# verilator installed...'"
+                ,"verilator --version"]
+                # make install
+            self.c0 = install_verilator(str(c[0]))
+            self.c1 = install_verilator(str(c[1]))
+            self.c2 = install_verilator(str(c[2]))
+            self.c3 = install_verilator(str(c[3]))
+            self.c4 = install_verilator(str(c[4]))
+            self.c5 = install_verilator(str(c[5]))
+            self.c6 = install_verilator(str(c[6]))
+            self.c7 = install_verilator(str(c[7]))
+            self.c8 = install_verilator(str(c[8]))
+            self.c9 = install_verilator(str(c[9]))
+
+            self.c0.P_progress.connect(self.install_status)
+            self.c1.P_progress.connect(self.install_status)
+            self.c2.P_progress.connect(self.install_status)
+            self.c3.P_progress.connect(self.install_status)
+            self.c4.P_progress.connect(self.install_status)
+            self.c5.P_progress.connect(self.install_status)
+            self.c6.P_progress.connect(self.install_status)
+            self.c7.P_progress.connect(self.install_status)
+            self.c8.P_progress.connect(self.install_status)
+            self.c9.P_progress.connect(self.install_status)
+
+            self.c0.start()
+            self.c0.finished.connect(self.c1.start)
+            self.c1.finished.connect(self.c2.start)
+            self.c2.finished.connect(self.c3.start)
+            self.c3.finished.connect(self.c4.start)
+            self.c4.finished.connect(self.c5.start)
+            self.c5.finished.connect(self.c6.start)
+            self.c6.finished.connect(self.c7.start)
+            self.c7.finished.connect(self.c8.start)
+            self.c8.finished.connect(self.c9.start)
+            self.c9.finished.connect(self.after_install_v)
+        except:
+            print("errot during installation")
 
     def install_status(self,status):
         self.Install_Output.insertPlainText(status)
+
+    def after_install_v(self):
+        self.Accept_B.setEnabled(True)
+        self.Clear_B.setEnabled(True)
 
 class run_command(QThread):
     P_progress = pyqtSignal(str)
@@ -279,30 +327,23 @@ class run_command(QThread):
             print("error in run_command")
 
 class install_verilator(QThread):
-    P_progress = pyqtSignal(str)
-    commands=[  "echo 'Please wait... cloning https://github.com/verilator/verilator'"
-                ,"rm -r verilator"
-                ,"git clone https://github.com/verilator/verilator"
-                ,"unset VERILATOR_ROOT"
-                ,"cd verilator/"
-                ,"git pull"
-                ,"git checkout stable"
-                ,"autoconf"
-                ,"./configure"
-                ,"make"
-                ,"pkexec make install"]
-                
-    def __init__(self, parent=None):
+    P_progress = pyqtSignal(str)                
+    def __init__(self, command, parent=None):
         QThread.__init__(self, parent)
+        self.command = command
     def start(self):
         QThread.start(self)
     def run(self):
         try:
-            for c in self.commands:
-                p = os.popen(c)
-                if p:
-                    status = p.read()
-                    self.P_progress.emit(status)
+            #p = os.popen(self.command)
+            #if p:
+            #    status = p.readline()
+            #    self.P_progress.emit(status)
+            p = subprocess.run(str(self.command),shell=True,capture_output=True)
+            status = p.stdout.decode()
+            if p:
+                print(status)
+                self.P_progress.emit(status)
         except:
             print("error in install_verilator")
 

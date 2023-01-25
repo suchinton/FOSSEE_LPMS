@@ -254,10 +254,10 @@ class Ui_MainWindow(object):
     def install_v(self):
         self.install = install_verilator()
         self.install.start()
+        self.Install_Output.clear()
         self.install.P_progress.connect(self.install_status)
 
     def install_status(self,status):
-        self.Install_Output.clear()
         self.Install_Output.insertPlainText(status)
 
 class run_command(QThread):

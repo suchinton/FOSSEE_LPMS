@@ -278,7 +278,8 @@ class run_command(QThread):
 
 class install_verilator(QThread):
     P_progress = pyqtSignal(str)
-    commands=[  "git clone https://github.com/verilator/verilator"
+    commands=[  "echo 'Please wait... cloning https://github.com/verilator/verilator'"
+                ,"git clone https://github.com/verilator/verilator"
                 ,"unset VERILATOR_ROOT"
                 ,"cd verilator"
                 ,"git pull"

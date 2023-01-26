@@ -27,7 +27,9 @@ git clone https://github.com/suchinton/FOSSEE_LPMS.git
 
 ### Resolving Dependencis on Ubuntu 
 
-(Downlad equilant packages on other Linux Distributions)
+Downlad equilant packages on other Linux Distributions
+Resolves dependencies for Verilator as well but dosen't insall it by default
+(Refer to [Verilator install instruction for latest version](https://verilator.org/guide/latest/install.html#package-manager-quick-install))
 
 ```bash
 cd ./FOSSEE_LPMS/
@@ -70,6 +72,7 @@ Download the latest release from github
 
 FOSSEE_GUI has zero dependencies after compilation. Thanks to the following projects/tools for making this possible:
 
+- [Verilator](https://verilator.org/guide/latest/overview.html)
 - [pyinstaller](https://pyinstaller.org/en/stable/installation.html) (pip)
 - [PyQt5](https://pypi.org/project/PyQt5/) (pip)
 - [Appimagetool](https://appimage.github.io/appimagetool/) (Appimage)

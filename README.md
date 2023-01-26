@@ -3,10 +3,11 @@
 Made as per the specificatinos provided by FOSSEE for the **[3rd Task: Linux Package Management System](https://fossee.in/semester-internship/2023)**
 
 FOSSEE_LPMS is a packaged executable installer/Front-end for **[Verilator](https://verilator.org/guide/latest/overview.html)**, a free and open-source software tool which converts Verilog (a hardware description language) to a cycle-accurate behavioral model in C++ or SystemC
+
 it can be freely distributed for any Linux-based platform (OS), it is written in Python using the PyQT5 library and packaged as an Appimage.
 
 ## ScreenShots
-
+![2023-01-26-184214_563x458_scrot](https://user-images.githubusercontent.com/75079303/214845665-3f921d26-6f24-4566-a4cc-a98833958ce5.png) ![2023-01-26-184221_563x458_scrot](https://user-images.githubusercontent.com/75079303/214845682-0704f3e7-5ef7-4668-b313-44971b83e5f0.png)
 ---
 ## Functions
 - Accepts Verilog & C++ Files to create executable object

@@ -174,12 +174,12 @@ class Ui_MainWindow(object):
     
     def Accept(self):
         try:
-            self.Output_dir = str(QFileDialog.getExistingDirectory(None, 'Select Output Directory'))
-            print(self.Output_dir)
             if(self.Path_Cpp.text()=="" and self.Path_V.text()!="" and os.path.exists(self.Path_V.text())):
+                self.Output_dir = str(QFileDialog.getExistingDirectory(None, 'Select Output Directory'))
                 self.Command = "verilator --binary -j -Wall " + self.Path_V.text() + " --Mdir " + self.Output_dir #$HOME/obj_dir/"                
                 self.Pass_file_to_command()
             elif(os.path.exists(self.Path_Cpp.text()) and os.path.exists(self.Path_V.text())):
+                self.Output_dir = str(QFileDialog.getExistingDirectory(None, 'Select Output Directory'))
                 self.Command = "verilator --cc --exe --build -j 0 -Wall " +\
                                 self.Path_Cpp.text() +  " " + \
                                 self.Path_V.text() + " --Mdir " + self.Output_dir#$HOME/obj_dir/"

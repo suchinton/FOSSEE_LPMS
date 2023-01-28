@@ -1,7 +1,5 @@
 #!/bin/python
 
-## final changes to be added here
-
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from PyQt5.QtCore import *
 import sys
@@ -13,7 +11,7 @@ from PyQt5 import QtCore, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
 
-        ## To update Marker 1
+        ## Set up UI
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(563, 458)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -117,18 +115,18 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        ## To update Marker 1 end
 
-        ## og
         # Actions to events
+        self.link_Actions()
+    
+    def link_Actions(self):
         self.FilePicker_Cpp.clicked.connect(self.PickFile_Cpp)
         self.FilePicker_V.clicked.connect(self.PickFile_V)
         self.Accept_B.clicked.connect(self.Accept)
         self.Clear_B.clicked.connect(self.Clear_all)
         self.Push_to_install.clicked.connect(self.install_v)
         self.Check_verilator()
-        ## og
-
+        
     ## to update Marker 2
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -156,39 +154,38 @@ class Ui_MainWindow(object):
             "Note: If using non-ubuntu based system use the provided package manager to install\n"))
         self.Push_to_install.setText(_translate("MainWindow", "Install latest release of Verilator"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Installation"))
-        ## to update Marker 2 end
 
     def PickFile_Cpp(self):
         try:
             filepath_Cpp = QFileDialog.getOpenFileName(None, 'Select File', "", "*.cpp;; *.c")
             self.Path_Cpp.setText(str(filepath_Cpp[0]))
         except:
-            print("File not selected")
+            self.Output_Area("Cpp File not selected")
 
     def PickFile_V(self):
         try:
             filepath_V = QFileDialog.getOpenFileName(None, 'Select File', "", "*.v;; *.V")
             self.Path_V.setText(str(filepath_V[0]))
         except:
-            print("File not selected")
+            self.Output_Area("V File not selected")
     
     def Accept(self):
         try:
             if(self.Path_Cpp.text()=="" and self.Path_V.text()!="" and os.path.exists(self.Path_V.text())):
                 self.Output_dir = str(QFileDialog.getExistingDirectory(None, 'Select Output Directory'))
-                self.Command = "verilator --binary -j -Wall " + self.Path_V.text() + " --Mdir " + self.Output_dir #$HOME/obj_dir/"                
+                self.Command = "verilator --binary -j -Wall " + self.Path_V.text() + " --Mdir " + self.Output_dir              
                 self.Pass_file_to_command()
             elif(os.path.exists(self.Path_Cpp.text()) and os.path.exists(self.Path_V.text())):
                 self.Output_dir = str(QFileDialog.getExistingDirectory(None, 'Select Output Directory'))
                 self.Command = "verilator --cc --exe --build -j 0 -Wall " +\
                                 self.Path_Cpp.text() +  " " + \
-                                self.Path_V.text() + " --Mdir " + self.Output_dir#$HOME/obj_dir/"
+                                self.Path_V.text() + " --Mdir " + self.Output_dir
                 self.Pass_file_to_command()
             else:
                 self.Path_Cpp.setStyleSheet("color: red;")
                 self.Path_V.setStyleSheet("color: red;")
         except:
-            print("Error in Accept funtion")
+            QMessageBox.warning(None,"Error!!","Error in Accept funtion")
 
     def Pass_file_to_command(self):
         self.Path_Cpp.setStyleSheet("color: black;")
@@ -256,7 +253,7 @@ class Ui_MainWindow(object):
             self.Push_to_install.setEnabled(False)
             self.Install_Output.clear()
 
-            c=[  "# echo 'Please wait... cloning https://github.com/verilator/verilator'"
+            c=[  "# echo '# Please wait... cloning https://github.com/verilator/verilator'"
                 ,"git clone https://github.com/verilator/verilator ; echo '# repo cloned...'"
                 ,"unset VERILATOR_ROOT"
                 ,"pwd ; cd ./verilator/ ; echo '# changing dir to verilator/' ; git checkout stable ; autoconf ; ./configure"
@@ -325,7 +322,7 @@ class run_command(QThread):
                 op = p.read()
                 self.P_progress.emit(op)
         except:
-            print("error in run_command")
+            QMessageBox.warning(None,"Invalid Commands!","Error in run_command")
 
 class install_verilator(QThread):
     P_progress = pyqtSignal(str)                
@@ -336,17 +333,13 @@ class install_verilator(QThread):
         QThread.start(self)
     def run(self):
         try:
-            #p = os.popen(self.command)
-            #if p:
-            #    status = p.readline()
-            #    self.P_progress.emit(status)
             p = subprocess.run(str(self.command),shell=True,capture_output=True)
             status = p.stdout.decode()
             if p:
                 print(status)
                 self.P_progress.emit(status)
         except:
-            print("error in install_verilator")
+            QMessageBox.warning(None,"Invalid Install Commands!","Error in install_verilator")
 
 # init the app
 if __name__ == "__main__":

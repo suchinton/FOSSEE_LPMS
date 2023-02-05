@@ -21,7 +21,7 @@ Detailed [explaination](https://github.com/suchinton/FOSSEE_LPMS/blob/main/FOSSE
 
 **IMPORTANT**: Do this only if you wish to build from Source
 
-### Clonign Repo
+### Cloning Repo
 
 ```bash
 git clone https://github.com/suchinton/FOSSEE_LPMS.git

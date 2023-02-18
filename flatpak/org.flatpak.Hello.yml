@@ -1,0 +1,26 @@
+app-id: org.flatpak.Fossee
+runtime: org.kde.Platform
+runtime-version: '5.15-21.08'
+sdk: org.kde.Sdk
+base: com.riverbankcomputing.PyQt.BaseApp
+base-version: 5.15-21.08
+
+command: run.sh
+
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --filesystem=host
+  - --device=dri
+modules:
+  - name: Fossee
+    buildsystem: simple
+    build-commands:
+      - install -D Fossee.py /app/bin/Fossee.py
+      - install -D run.sh /app/bin/run.sh
+    sources:
+      - type: file
+        path: Fossee.py
+      - type: file
+        path: run.sh

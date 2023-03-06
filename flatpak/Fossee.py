@@ -223,11 +223,11 @@ class Ui_MainWindow(object):
         self.Output.clear()
 
     def Check_verilator(self):
-        verilator_path = subprocess.getoutput("whereis verilator").split()
+        verilator_path = os.popen("whereis verilator").read().split()
         verilator_path.pop(0)
         verilator_version = subprocess.getoutput("verilator --version").split()
         verilator_version.pop(0)
-        
+        print(os.getcwd())
 
         if("/usr/bin/verilator" in verilator_path or "/usr/share/verilator" in verilator_path or "/usr/local/bin/verilator" in verilator_path):
             print("Verilator installed")
@@ -252,14 +252,14 @@ class Ui_MainWindow(object):
             self.Push_to_install.setEnabled(False)
             self.Install_Output.clear()
 
-            c=[  "# echo '# Please wait... cloning https://github.com/verilator/verilator'"
-                ,"git clone https://github.com/verilator/verilator ; echo '# repo cloned...'"
+            c=[  "# pwd; echo '# Please wait... cloning https://github.com/verilator/verilator'"
+                ,"git clone https://github.com/verilator/verilator $HOME/verilator; echo '# repo cloned...'"
                 ,"unset VERILATOR_ROOT"
-                ,"pwd ; cd ./verilator/ ; echo '# changing dir to verilator/' ; git checkout stable ; autoconf ; ./configure"
+                ,"pwd ; cd $HOME/verilator/ ; echo '# changing dir to verilator/' ; git checkout stable ; autoconf ; ./configure"
                 ,"echo '# please wait... This may take some time'"
-                ,"cd ./verilator/ ; make"
+                ,"cd $HOME/verilator/ ; make"
                 ,"echo 'installing make...'"
-                ,"cd ./verilator/ ; pkexec --keep-cwd make install ; sleep 2"
+                ,"cd $HOME/verilator/ ; pkexec --keep-cwd make install ; sleep 2"
                 ,"echo '# verilator installed...'"
                 ,"verilator --version"]
                 # make install

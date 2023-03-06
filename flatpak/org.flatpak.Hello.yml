@@ -1,18 +1,20 @@
 app-id: org.flatpak.Fossee
 runtime: org.kde.Platform
-runtime-version: '5.15-21.08'
+runtime-version: '5.15-22.08'
 sdk: org.kde.Sdk
 base: com.riverbankcomputing.PyQt.BaseApp
-base-version: 5.15-21.08
+base-version: 5.15-22.08
 
 command: run.sh
 
 finish-args:
   - --share=ipc
+  - --share=network
   - --socket=x11
   - --socket=wayland
-  - --filesystem=host
+  - --filesystem=host-os
   - --device=dri
+  - --talk-name=org.freedesktop.Flatpak
 modules:
   - name: Fossee
     buildsystem: simple
